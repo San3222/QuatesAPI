@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+    integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id='quotes'></div>
+  <div id='author'></div>
+  <button id='newQ'>New Quates</button>
+  <button id='tweet'>Tweet</button>
+
+
+  <script>
+
+    const quotes = document.getElementById('quotes');
+    const author = document.getElementById('author');
+    const newQ = document.getElementById('newQ');
+    const tweet = document.getElementById('tweet');
+    let realData = "";
+    let quotesData = "";
+
+    const tweetNow = () => {
+      const tpost = `https://twitter.com/compose/tweet?text=${quotesData.text} ${quotesData.author}`;
+      window.open(tpost);
+    }
+
+    const getNewQuotes = () => {
+      let rnum = Math.floor(Math.random() * 10);
+      quotesData = realData[rnum]
+      quotes.innerHTML = `${quotesData.text}`;
+      quotesData.author == null
+        ? (author.innerHTML = `Unknown`)
+        : (author.innerHTML = `${quotesData.author}`);
+
+    }
+    
+    const getQuotes = async () => {
+      const api = 'https://type.fit/api/quotes';
+      try {
+        let getdata = await fetch(api)
+        realData = await getdata.json();
+        getNewQuotes();
+        // console.log(realData.length);
+        // console.log(realData[20].author);
+      } catch (error) {
+
+      }
+    }
+    tweet.addEventListener('click', tweetNow);
+    newQ.addEventListener('click', getNewQuotes);
+    getQuotes();
+  </script>
+</body>
+</html>
+
+<!-- https://type.fit/api/quotes -->
