@@ -1,1 +1,1 @@
-# QuatesAPI
+# QuatesPost
